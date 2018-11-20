@@ -98,7 +98,7 @@ class Posts extends Component {
 
             const deletedPostJSON = await deletedPost.json();
 
-            //this.setState({posts: this.state.posts.filter((post)=> post._id !== id)})
+            this.setState({posts: this.state.posts.filter((post)=> post.id !== id)})
 
             console.log(deletedPostJSON)
 
