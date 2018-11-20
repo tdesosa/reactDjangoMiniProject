@@ -120,7 +120,7 @@ class App extends Component {
       console.log(foundUser, "Getting here")
       const foundUserJSON = await foundUser.json();
       console.log(foundUserJSON, ' this is found user')
-      if(foundUser.status == 200){
+      if(foundUserJSON.data == 'login successful'){
         this.setState({
           loggedIn: true,
           username: this.state.username,
@@ -128,7 +128,7 @@ class App extends Component {
         })
         console.log(this.state, '<----user is loggedin')
         console.log(this.state.username, "<---- username bro")
-      } else if (foundUserJSON.status == 500){
+      } else if (foundUser.status == 500){
         console.log("INTERNAL SERVER ERROR")
       }
     }catch(err){
