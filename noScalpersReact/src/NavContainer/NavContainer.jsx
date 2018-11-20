@@ -41,6 +41,9 @@ export default class Example extends React.Component {
               <NavItem>
                 <NavLink href="/events">Events</NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink onClick={this.props.logOut}>Logout</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>

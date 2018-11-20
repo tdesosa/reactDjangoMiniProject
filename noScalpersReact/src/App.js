@@ -35,6 +35,34 @@ class App extends Component {
     this.getToken()
     console.log('GOT TOKEN********')
   }
+
+  logOut = async (e) => {
+    e.preventDefault();
+    console.log('being called')
+    const csrfCookie = Cookie('csrftoken');
+    const loginResponse = await fetch('http://localhost:8000/users/logout/', {
+      method: 'get',
+      credentials: 'include',
+      headers: {
+        'X-CSRFToken': csrfCookie,
+        'Content-Type': 'application/json',
+
+      },
+    });
+    console.log(loginResponse)
+    const parsedResponse = await loginResponse.json();
+
+    if(parsedResponse.data === 'logout successful'){
+      // change our component
+      console.log('succes logut')
+     this.setState({
+       loggedIn:false
+     })
+
+    } else {
+      console.log(parsedResponse.error)
+    }
+  }
   
   handleInputs = (e) => {
   this.setState({
@@ -57,12 +85,13 @@ class App extends Component {
         'X-CSRFToken': csrfCookie,
       } 
     });
+    console.log(createdUser, '###THIS IS CREATED USER###')
     const createdUserJSON = await createdUser.json();
-    if(createdUserJSON.status == 200){
+    if(createdUser.status == 200){
       this.setState({
         loggedIn: true,
-        username: createdUserJSON.data.username,
-        password: createdUserJSON.data.password
+        username: this.state.username,
+        password: this.state.password
       })
       console.log(this.state.username, "<---- username bro")
     } else if (createdUserJSON.status == 500){
@@ -125,7 +154,7 @@ class App extends Component {
     return (
       <div className="App">
      
-      <NavContainer />
+      <NavContainer logOut={this.logOut}/>
     
           { this.state.loggedIn ? 
           <div>
