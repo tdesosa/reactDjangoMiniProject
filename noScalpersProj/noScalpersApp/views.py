@@ -15,10 +15,10 @@ class Posts(View):
     def get(self, request):
 
         if(request.user.is_authenticated):
-
+            print(request.user.id, '##################')
             user = User.objects.get(id=request.user.id)
-
-            post_list = list(User.posts.all().values())
+            
+            post_list = list(user.posts.all().values())
 
             return JsonResponse({
                 'Content-Type': 'application/json',
@@ -40,12 +40,12 @@ class Posts(View):
         data = json.loads(data)
 
         try:
-            new_post = Post(title=data["title"], author=data["author"], commentBody=data["commentBody"])
+            new_post = Post(title=data["title"], author=request.user, commentBody=data["commentBody"])
 
-            new_post.created_by = request.user
+            # new_post.author = request.user
             new_post.save()
             data["id"] = new_post.id
-            print(data, ' this is data', request.user)
+            print(data, ' this is data')
             return JsonResponse({"data": data}, safe=False)
         except:
             return JsonResponse({"error": "Data is Not Valid"},safe=False)
@@ -53,7 +53,7 @@ class Posts(View):
 class Post_Detail(View):
     # @method_decorator(csrf_exempt)
     # def dispatch(self, request, *args, **kwargs):
-    #     return super(Book_Detail, self).dispatch(request, *args, **kwargs)
+    #     return super(Post_Detail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, pk):
         post_list = list(Post.objects.filter(pk=pk).values())

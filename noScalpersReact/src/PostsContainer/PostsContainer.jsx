@@ -23,7 +23,8 @@ class Posts extends Component {
         const posts = await fetch('http://localhost:8000/posts/', {
             credentials: 'include',
             headers: {
-              'X-CSRFToken': csrfCookie
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfCookie
             }
           });
         const postsJSON = await posts.json();
@@ -45,9 +46,11 @@ class Posts extends Component {
     // Add a Post function to be passed down to child
 
     addPost = async (post, e) => {
-        const csrfCookie = Cookie.get('csrftoken');
+
         e.preventDefault();
         console.log(post);
+
+        const csrfCookie = Cookie.get('csrftoken');
 
         try {
 
@@ -63,9 +66,9 @@ class Posts extends Component {
             });
       
             const parsedPost = await createdPost.json();
-            console.log(parsedPost)
-
-            if(parsedPost.status === 200){
+            // console.log(parsedPost)
+            // console.log(this.state, 'THIS IS STATE')
+            if(createdPost.status === 200){
                 this.setState({
                     posts: [...this.state.posts, parsedPost.data]
                 })
@@ -82,15 +85,20 @@ class Posts extends Component {
 
     // Delete Post function 
     deletePost = async (id) => {
-
+        const csrfCookie = Cookie.get('csrftoken');
         try {
             const deletedPost = await fetch('http://localhost:8000/posts/' + id, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfCookie
+            }
             });
 
             const deletedPostJSON = await deletedPost.json();
 
-            this.setState({posts: this.state.posts.filter((post)=> post._id !== id)})
+            //this.setState({posts: this.state.posts.filter((post)=> post._id !== id)})
 
             console.log(deletedPostJSON)
 
@@ -107,10 +115,12 @@ class Posts extends Component {
   
     
     submitEdit = async (postToEdit) => {
+        const csrfCookie = Cookie('csrftoken');
         console.log(postToEdit)
             try {
                 const editedPost = await fetch ('http://localhost:8000/posts/' + postToEdit._id, {
                     method: 'PUT', 
+                    credentials: 'include',
                     body: JSON.stringify({
 
                         title: postToEdit.title,
@@ -118,7 +128,8 @@ class Posts extends Component {
 
                     }),
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfCookie
 
                     }
                 })

@@ -60,7 +60,7 @@ class PostDetail extends Component {
                         <CardBody>
                             <CardTitle className="card-title">{this.props.post.title}</CardTitle>
                             <CardText>{this.props.post.commentBody}</CardText>
-                            <Button color="danger" onClick={this.props.deletePost.bind(null, this.props.post._id)}>Delete</Button>
+                            <Button color="danger" onClick={this.props.deletePost.bind(null, this.props.post.id)}>Delete</Button>
                             <Button color="info" onClick={this.toggle}>Edit</Button>
                         </CardBody>
                     </Card>
