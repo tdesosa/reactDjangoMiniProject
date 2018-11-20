@@ -87,7 +87,7 @@ class Posts extends Component {
     deletePost = async (id) => {
         const csrfCookie = Cookie.get('csrftoken');
         try {
-            const deletedPost = await fetch('http://localhost:8000/posts/' + id, {
+            const deletedPost = await fetch('http://localhost:8000/posts/' + id + '/', {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -118,7 +118,7 @@ class Posts extends Component {
         const csrfCookie = Cookie('csrftoken');
         console.log(postToEdit)
             try {
-                const editedPost = await fetch ('http://localhost:8000/posts/' + postToEdit._id, {
+                const editedPost = await fetch ('http://localhost:8000/posts/' + postToEdit.id + '/', {
                     method: 'PUT', 
                     credentials: 'include',
                     body: JSON.stringify({
@@ -133,12 +133,14 @@ class Posts extends Component {
 
                     }
                 })
+
+                console.log(editedPost, '###########')
             
                 const editedPostJSON = await editedPost.json();
         
                 const newPostArrayWithEdited = this.state.posts.map((post) => {
         
-                if(post._id === editedPostJSON.data._id){
+                if(post.id === editedPostJSON.data.id){
                     post = editedPostJSON.data
                 }
         

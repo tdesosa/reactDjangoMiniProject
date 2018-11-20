@@ -12,7 +12,7 @@ class PostDetail extends Component {
             postToEdit: {
                 title: props.post.title,
                 commentBody: props.post.commentBody,
-                _id: props.post._id
+                id: props.post.id
               },
 
         }
@@ -54,7 +54,7 @@ class PostDetail extends Component {
     render() {
         return(
 
-                <div key ={this.props.post._id}>
+                <div key ={this.props.post.id}>
                   
                     <Card className="post-card">
                         <CardBody>

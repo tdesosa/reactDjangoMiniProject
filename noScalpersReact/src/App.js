@@ -108,7 +108,7 @@ class App extends Component {
     }
 
     getToken = async () => {
-      const token = await fetch('http://localhost:8000/users/getToken', {
+      const token = await fetch('http://localhost:8000/users/getToken/', {
         method: 'get',
         credentials: 'include', // this sends our session cookie with our request
         headers: {
